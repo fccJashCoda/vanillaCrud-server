@@ -61,11 +61,9 @@ router.get('/:id', validId, (req, res, next) => {
 router.post('/', validProduct, (req, res, next) => {
   const product = getProductFromBody(req.body);
 
-  res.json(product);
-
-  // queries.create(product).then((id) => {
-  //   res.json({ id });
-  // });
+  queries.create(product).then((id) => {
+    res.json({ id });
+  });
 });
 
 router.put('/:id', validId, validProduct, (req, res, next) => {
@@ -74,6 +72,10 @@ router.put('/:id', validId, validProduct, (req, res, next) => {
   queries
     .update(req.params.id, product)
     .then(() => res.json({ message: 'Updated!' }));
+});
+
+router.delete('/:id', validId, (req, res, next) => {
+  queries.delete(req.params.id).then(() => res.json({ message: 'Deleted!' }));
 });
 
 module.exports = router;
